@@ -80,7 +80,7 @@ public class CollisionController : MonoBehaviour {
         for(int i = 0; i < RAYCAST_COUNT; i++) {
             for (int j = 0; j < RAYCAST_COUNT; j++) {
                 Vector3 origin = calculateOrigin(start, end, direction, i, j);
-                RaycastHit hit = RaycastWithDebug(origin, direction, Mathf.Abs(distance) + SKIN, solidMask);
+                RaycastHit hit = Helpers.RaycastWithDebug(origin, direction, Mathf.Abs(distance) + SKIN, solidMask);
                 if (hit.collider != null) {
                     int sign = Vector3Sign(direction);
                     float currentDist = (hit.distance - SKIN) * sign;
@@ -95,16 +95,6 @@ public class CollisionController : MonoBehaviour {
             }
         }
         return Mathf.Min(hitDistance);
-    }
-
-    // A wrapper for Physics.Raycast to see them in the inspector.
-    private RaycastHit RaycastWithDebug(Vector3 origin, Vector3 direction, float distance, int layerMask) {
-        RaycastHit hit;
-        bool didHit = Physics.Raycast(origin, direction, out hit, distance, layerMask);
-        Color color = didHit ? Color.red : Color.green;
-        Debug.DrawRay(origin, direction * distance, color);
-
-        return hit;
     }
 
     // A helpful struct to keep track of the position of the box's vertices. We actually only need half of the points, so long as they are not adjacent to each other.
