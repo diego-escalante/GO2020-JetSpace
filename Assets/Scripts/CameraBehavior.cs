@@ -11,7 +11,8 @@ public class CameraBehavior : MonoBehaviour {
     public float percentPerSecond = 1f;
     public float camDistance = 15f;
 
-    private float currentPercent;
+    private float currentPercent = 0;
+    private float targetPercent = 0;
     private Transform target;
     private Vector3 defaultLocalPosition, defaultLocalForward;
     private PlayerMovement playerMovement;
@@ -26,11 +27,21 @@ public class CameraBehavior : MonoBehaviour {
     }
 
     void Update() {
+        // Only update target camera angle when grounded. 
+        // It is too jarring to have the camera shift while jumping.
         if (playerMovement.IsGrounded()) {
-            if (isTargetOccluded() && currentPercent < 1) {
+            targetPercent = isTargetOccluded() ? 1 : 0;
+        }
+
+        // If we are not at the target angle, always work towards getting there.
+        // This means do not stop shifting the camera if we stop being grounded
+        // while we already started shifting. It's even more jarring to stop
+        // mid shift during a jump and continue when grounded again.
+        if (targetPercent != currentPercent) {
+            if (currentPercent < targetPercent) {
                 currentPercent = Mathf.Clamp(currentPercent + percentPerSecond * Time.deltaTime, 0, 1);
                 repositionCam(Mathf.SmoothStep(camAngle, topAngle, currentPercent));
-            } else if (currentPercent > 0) {
+            } else if (currentPercent > targetPercent) {
                 currentPercent = Mathf.Clamp(currentPercent - percentPerSecond * Time.deltaTime, 0, 1);
                 repositionCam(Mathf.SmoothStep(camAngle, topAngle, currentPercent));
             }
