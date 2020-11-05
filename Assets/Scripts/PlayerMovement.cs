@@ -183,4 +183,8 @@ public class PlayerMovement : MonoBehaviour {
         minMultiJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minMultiJumpHeight);
         terminalVelocity = maxJumpVelocity * terminalVelocityFactor;
     }
+
+    public bool IsGrounded() {
+        return collisionInfo.colliders.ContainsKey(Vector3.down);
+    }
 }
