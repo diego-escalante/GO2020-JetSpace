@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 2653390321217957855}
   - component: {fileID: 2653390321217957859}
   - component: {fileID: 2653390321217957858}
+  - component: {fileID: 5547726625139269938}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -215,7 +216,7 @@ MonoBehaviour:
   timeToJumpApex: 0.33
   runSpeed: 5
   timeToTopSpeed: 0.2
-  terminalVelocityFactor: 3
+  terminalVelocityFactor: 5
   jumps: 1
   multijumpHeight: 0.5
   variableJumpEnabled: 1
@@ -239,6 +240,20 @@ MonoBehaviour:
   solidMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &5547726625139269938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2653390321217957852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45af508fbffab684882ea8811e006d90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  burnTime: 1
+  hoverAcceleration: {x: 0, y: 27, z: 0}
 --- !u!1 &7493453997762888515
 GameObject:
   m_ObjectHideFlags: 0

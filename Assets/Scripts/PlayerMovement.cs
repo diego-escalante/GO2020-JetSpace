@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
     private float minMultiJumpHeight = 0.25f;
     private float minJumpVelocity;
     private float minMultiJumpVelocity;
+    private bool variableJumpActive = false;
 
     // Coyote Time
     [Header("Coyote Time")]
@@ -81,7 +82,7 @@ public class PlayerMovement : MonoBehaviour {
         UpdateKinematics();
     }
 
-    private void Start() {
+    private void Awake() {
         UpdateKinematics();
         collisionController = GetComponent<CollisionController>();
     }
@@ -132,10 +133,14 @@ public class PlayerMovement : MonoBehaviour {
             jumpsLeft--;
             // Just set the jump timer to negative to "consume" input.
             jumpBufferTimeLeft = -1;
+            if (variableJumpEnabled) {
+                variableJumpActive = true;
+            }
         }
 
         // Shortening jumps by releasing space.
-        if (variableJumpEnabled && Input.GetKeyUp(KeyCode.Space)) {
+        if (variableJumpEnabled && Input.GetKeyUp(KeyCode.Space) && variableJumpActive) {
+            variableJumpActive = false;
             if (jumps == jumpsLeft+1) {
                 if (velocity.y > minJumpVelocity) {
                     velocity.y = minJumpVelocity;
@@ -185,6 +190,17 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public bool IsGrounded() {
+        if (collisionInfo.colliders == null) {
+            return false;
+        }
         return collisionInfo.colliders.ContainsKey(Vector3.down);
+    }
+
+    public int JumpsLeft() {
+        return jumpsLeft;
+    }
+
+    public void AddVelocity(Vector3 delta) {
+        velocity += delta;
     }
 }
