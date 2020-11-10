@@ -254,7 +254,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHoverHeightGain: 3
   hoverAcc: 35
-  burnTime: 10
+  burnTime: 2
+  decayRatePerSecond: 0.1
 --- !u!1 &7493453997762888515
 GameObject:
   m_ObjectHideFlags: 0
