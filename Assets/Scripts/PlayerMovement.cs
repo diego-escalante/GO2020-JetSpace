@@ -66,6 +66,7 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 velocity = Vector3.zero;
     private CollisionController collisionController;
     private CollisionController.CollisionInfo collisionInfo;
+    private Vector3 lastGroundedPosition = Vector3.zero;
 
     private void OnValidate() {
         jumpHeight = Mathf.Max(0, jumpHeight);
@@ -164,6 +165,7 @@ public class PlayerMovement : MonoBehaviour {
                     coyoteTimeLeft = coyoteTime;
                 }
                 jumpsLeft = jumps;
+                lastGroundedPosition = transform.position;
             }
         }
 
@@ -200,7 +202,23 @@ public class PlayerMovement : MonoBehaviour {
         return jumpsLeft;
     }
 
+    public Vector3 GetVelocity() {
+        return velocity;
+    }
+
     public void AddVelocity(Vector3 delta) {
         velocity += delta;
+    }
+
+    public float GetGravity() {
+        return gravity;
+    }
+
+    public Vector3 GetLastGroundedPosition() {
+        return lastGroundedPosition;
+    }
+
+    public float GetJumpHeight() {
+        return jumpHeight;
     }
 }

@@ -136,7 +136,7 @@ PrefabInstance:
     - target: {fileID: 1355834739561551245, guid: fe0375d2db0a8a74c8aaa942cf59ffb1,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4400367279192113938, guid: fe0375d2db0a8a74c8aaa942cf59ffb1,
         type: 3}
@@ -305,7 +305,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &754209066
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -397,7 +397,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &809816710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,6 +450,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5547726625139269938, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
+        type: 3}
+      propertyPath: burnTime
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7493453997762888515, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
         type: 3}
       propertyPath: m_Name
@@ -458,12 +463,12 @@ PrefabInstance:
     - target: {fileID: 7493453997762888515, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8210853146943559180, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 0.51
       objectReference: {fileID: 0}
     - target: {fileID: 8210853146943559180, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
         type: 3}
@@ -473,7 +478,7 @@ PrefabInstance:
     - target: {fileID: 8210853146943559180, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: -3.87
       objectReference: {fileID: 0}
     - target: {fileID: 8210853146943559180, guid: 0a6c9ad0245a93947ac15c73e824ebc2,
         type: 3}

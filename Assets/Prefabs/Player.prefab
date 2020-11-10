@@ -252,8 +252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45af508fbffab684882ea8811e006d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  burnTime: 1
-  hoverAcceleration: {x: 0, y: 27, z: 0}
+  maxHoverHeightGain: 3
+  hoverAcc: 35
+  burnTime: 10
 --- !u!1 &7493453997762888515
 GameObject:
   m_ObjectHideFlags: 0
