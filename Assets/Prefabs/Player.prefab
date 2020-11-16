@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4219eb33e75630e48b976bda31cf3682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpHeight: 1.25
+  jumpHeight: 1.5
   timeToJumpApex: 0.33
   runSpeed: 5
   timeToTopSpeed: 0.2
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45af508fbffab684882ea8811e006d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHoverHeightGain: 3
+  maxHoverHeightGain: 2.75
   hoverAcc: 35
   burnTime: 2
   decayRatePerSecond: 0.1

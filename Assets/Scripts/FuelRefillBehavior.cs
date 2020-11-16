@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider))]
 public class FuelRefillBehavior : MonoBehaviour {
 
     public Sprite filledSprite;
@@ -17,8 +16,8 @@ public class FuelRefillBehavior : MonoBehaviour {
 
     private void Start() {
         playerColl = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider>();
-        coll = GetComponent<BoxCollider>();
-        rend = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        coll = transform.Find("Transform/Collider").GetComponent<BoxCollider>();
+        rend = transform.Find("Transform/Sprite").GetComponent<SpriteRenderer>();
     }
 
     private void Update() {
