@@ -17,7 +17,7 @@ public class PlayerHovering : MonoBehaviour {
     private float hoverDecel;
     private float targetHeight;
 
-    private Text counter;
+    private Image counter;
 
     private void Start() {
         playerMovement = GetComponent<PlayerMovement>();
@@ -83,8 +83,8 @@ public class PlayerHovering : MonoBehaviour {
 
     private void UpdateCounter() {
         if (counter == null) {
-            counter = GameObject.FindGameObjectWithTag("UI").transform.Find("Fuel Counter").GetComponent<Text>();
+            counter = GameObject.FindGameObjectWithTag("UI").transform.Find("UIList/Fuel/BarFill").GetComponent<Image>();
         }
-        counter.text = "Fuel : " + Mathf.Max(0, burnTimeLeft);
+        counter.fillAmount = burnTimeLeft/burnTime;
     }
 }
