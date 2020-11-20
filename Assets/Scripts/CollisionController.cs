@@ -39,30 +39,38 @@ public class CollisionController : MonoBehaviour {
 
     public ref CollisionInfo Check(Vector3 moveVector) {
         UpdateRaycastOrigins();
-        collisionInfo.Reset(moveVector);
+        collisionInfo.Reset(Vector3.zero);
 
         Collider tempColl;
         Vector3 direction;
         if (moveVector.x != 0) {
             direction = Vector3.right * Mathf.Sign(moveVector.x);
-            collisionInfo.moveVector.x = CastRays(moveVector.x, direction, out tempColl);
+            collisionInfo.moveVector.x = CastRays(moveVector.x, direction, out tempColl, collisionInfo.moveVector);
             if (tempColl != null) {
                 collisionInfo.colliders.Add(direction, tempColl);
             }
+        } else {
+            collisionInfo.moveVector.x = moveVector.x;
         }
+
         if (moveVector.y != 0) {
             direction = Vector3.up * Mathf.Sign(moveVector.y);
-            collisionInfo.moveVector.y = CastRays(moveVector.y, direction, out tempColl);
+            collisionInfo.moveVector.y = CastRays(moveVector.y, direction, out tempColl, collisionInfo.moveVector);
             if (tempColl != null) {
                 collisionInfo.colliders.Add(direction, tempColl);
             }
+        } else {
+            collisionInfo.moveVector.y = moveVector.y;
         }
+
         if (moveVector.z != 0) {
             direction = Vector3.forward * Mathf.Sign(moveVector.z);
-            collisionInfo.moveVector.z = CastRays(moveVector.z, direction, out tempColl);
+            collisionInfo.moveVector.z = CastRays(moveVector.z, direction, out tempColl, collisionInfo.moveVector);
             if (tempColl != null) {
                 collisionInfo.colliders.Add(direction, tempColl);
             }
+        } else {
+            collisionInfo.moveVector.z = moveVector.z;
         }
 
         return ref collisionInfo;
@@ -70,11 +78,13 @@ public class CollisionController : MonoBehaviour {
 
     // Casts a 2D array of rays from a plane perpendicular to the direction of the rays, returns the shortest distance
     // of rays hit or the original distance.
-    private float CastRays(float distance, Vector3 direction, out Collider coll) {
+    private float CastRays(float distance, Vector3 direction, out Collider coll, Vector3 offset) {
         Vector3 start, end;
         float hitDistance = distance;
         coll = null;
         GetStartAndEndOrigins(direction, out start, out end);
+        start += offset;
+        end += offset;
         
         // Cast rays from the face of the collider in a grid.
         for(int i = 0; i < RAYCAST_COUNT; i++) {
@@ -99,19 +109,15 @@ public class CollisionController : MonoBehaviour {
 
     // A helpful struct to keep track of the position of the box's vertices. We actually only need half of the points, so long as they are not adjacent to each other.
     private struct RaycastOrigins {
-        public Vector3 _000, _011, _101, _110/*, _001, _010, _100, _111*/;
+        public Vector3 _000, _011, _101, _110;
     }
 
     private void UpdateRaycastOrigins() {
         Vector3 center = transform.position + coll.center;
         raycastOrigins._000 = center + new Vector3(-colliderHalfDims.x, -colliderHalfDims.y, -colliderHalfDims.z);
-        // raycastOrigins._001 = center + new Vector3(-colliderHalfDims.x, -colliderHalfDims.y, colliderHalfDims.z);
-        // raycastOrigins._010 = center + new Vector3(-colliderHalfDims.x, colliderHalfDims.y, -colliderHalfDims.z);
         raycastOrigins._011 = center + new Vector3(-colliderHalfDims.x, colliderHalfDims.y, colliderHalfDims.z);
-        // raycastOrigins._100 = center + new Vector3(colliderHalfDims.x, -colliderHalfDims.y, -colliderHalfDims.z);
         raycastOrigins._101 = center + new Vector3(colliderHalfDims.x, -colliderHalfDims.y, colliderHalfDims.z);
         raycastOrigins._110 = center + new Vector3(colliderHalfDims.x, colliderHalfDims.y, -colliderHalfDims.z);
-        // raycastOrigins._111 = center + new Vector3(colliderHalfDims.x, colliderHalfDims.y, colliderHalfDims.z);
     }
 
     // Figures out the start and end ray origins for a given direction.
