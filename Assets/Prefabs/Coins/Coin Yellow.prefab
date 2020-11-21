@@ -93,8 +93,8 @@ GameObject:
   - component: {fileID: 2304211554902857404}
   - component: {fileID: 2304211554902857395}
   - component: {fileID: 7803416227936372081}
-  m_Layer: 0
-  m_Name: Coin
+  m_Layer: 10
+  m_Name: Coin Yellow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solidMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 768
 --- !u!1001 &2304211553175915907
 PrefabInstance:
   m_ObjectHideFlags: 0

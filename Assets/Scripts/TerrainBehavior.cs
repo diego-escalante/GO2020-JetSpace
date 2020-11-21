@@ -7,9 +7,7 @@ public class TerrainBehavior : MonoBehaviour {
     private Color[] colors = {new Color(92/(float)255, 0, 1), new Color(77/(float)255, 18/(float)255, 179/(float)255), new Color(91/(float)255, 41/(float)255, 179/(float)255)};
 
     private float dropDistance = 20f;
-    private float triggerDistance = 10f;
     private static Transform player;
-    private Coroutine coroutine = null;
     private Vector3 originalScale;
     
     private void Start(){
@@ -22,10 +20,8 @@ public class TerrainBehavior : MonoBehaviour {
         GetComponent<Renderer>().material.SetColor("_Color", colors[Random.Range(0, colors.Length)]);
     }
 
-    private void Update() {
-        if (coroutine == null && Vector2.Distance(Get2DVector(transform.position), Get2DVector(player.position)) < triggerDistance) {
-            coroutine = StartCoroutine(Bastionize(transform.position, transform.position - Vector3.up * dropDistance, 1f));
-        }
+    public void Drop() {
+        StartCoroutine(Bastionize(transform.position, transform.position - Vector3.up * dropDistance, 1f));
     }
 
     // Transform a 3D vector to a 2D vector; toss out the Y axis.

@@ -86,6 +86,10 @@ public class PlayerMovement : MonoBehaviour {
     private void Awake() {
         UpdateKinematics();
         collisionController = GetComponent<CollisionController>();
+
+        // Quick hack, need this initialized on the first frame.
+        collisionInfo = new CollisionController.CollisionInfo();
+        collisionInfo.colliders = new Dictionary<Vector3, Collider>();
     }
 
     private void Update(){
@@ -220,5 +224,9 @@ public class PlayerMovement : MonoBehaviour {
 
     public float GetJumpHeight() {
         return jumpHeight;
+    }
+
+    public CollisionController.CollisionInfo GetCollisionInfo() {
+        return collisionInfo;
     }
 }

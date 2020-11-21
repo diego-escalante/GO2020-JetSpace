@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FuelRefillBehavior : MonoBehaviour {
+public class FuelRefillBehavior : MonoBehaviour, IPlayerCollidable {
 
     public Sprite filledSprite;
     public Sprite emptySprite;
@@ -10,31 +10,41 @@ public class FuelRefillBehavior : MonoBehaviour {
 
     public float respawnTime = 5f;
     public float fillAmountPercentage = 1f;
-    private BoxCollider playerColl, coll;
-    private float respawnTimeLeft;
+    private BoxCollider coll;
+    private PlayerHovering playerHovering;
     private SpriteRenderer rend;
 
-    private void Start() {
-        playerColl = GameObject.FindGameObjectWithTag("Player").GetComponent<BoxCollider>();
-        coll = transform.Find("Transform/Collider").GetComponent<BoxCollider>();
-        rend = transform.Find("Transform/Sprite").GetComponent<SpriteRenderer>();
+    private void OnEnable() {
+        coll = GetComponent<BoxCollider>();
+        ColliderExtensions.RegisterToDetector(this, coll);
     }
 
-    private void Update() {
-        if (rend.sprite == filledSprite && coll.Overlaps(playerColl)) {
-            // If available and touched by player, refill their fuel, disable.
-            playerColl.GetComponent<PlayerHovering>().Refuel(fillAmountPercentage);
-            rend.sprite = emptySprite;
-            blobShadow.SetActive(false);
-            respawnTimeLeft = respawnTime;
-        } else if (rend.sprite == emptySprite) {
-            // If not enabled, tick down and respawn when ready.
-            respawnTimeLeft -= Time.deltaTime;
-            if (respawnTimeLeft <= 0) {
-                rend.sprite = filledSprite;
-                blobShadow.SetActive(true);
-            }
+    private void OnDisable() {
+        ColliderExtensions.DeregisterFromDetector(this, coll);
+    }
+
+    private void Start() {
+        playerHovering = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHovering>();
+        rend = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+        transform.Translate(Vector3.down);
+        GetComponent<Animator>().Play("Wiggle", 0, Random.Range(0, 1f));
+    }
+
+    public void Collided(Vector3 v) {
+        if (rend.sprite == filledSprite) {
+            StartCoroutine(FuelUp());
         }
+    }
+
+    private IEnumerator FuelUp() {
+        rend.sprite = emptySprite;
+        playerHovering.Refuel(fillAmountPercentage);
+        blobShadow.SetActive(false);
+
+        yield return new WaitForSeconds(respawnTime);
+
+        blobShadow.SetActive(true);
+        rend.sprite = filledSprite;
     }
     
 }

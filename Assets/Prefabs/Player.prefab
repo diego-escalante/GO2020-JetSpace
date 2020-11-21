@@ -232,6 +232,7 @@ GameObject:
   - component: {fileID: 2653390321217957858}
   - component: {fileID: 5547726625139269938}
   - component: {fileID: 9018774755769963277}
+  - component: {fileID: 119944163490585978}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -308,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   solidMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 2816
 --- !u!114 &5547726625139269938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +340,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinTrackerPrefab: {fileID: 2219970144073664807, guid: 1105e58966a477841826f5c763a0d778,
     type: 3}
+--- !u!114 &119944163490585978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2653390321217957852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e194b4e05ad7fb438a6a3ce09088ab5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collectibleMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  toDropMask:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &7493453997762888515
 GameObject:
   m_ObjectHideFlags: 0
