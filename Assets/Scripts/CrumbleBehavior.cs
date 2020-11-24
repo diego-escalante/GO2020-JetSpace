@@ -46,7 +46,7 @@ public class CrumbleBehavior : MonoBehaviour, IPlayerCollidable {
         float timeStep = timeToCrumble/crumbleSteps;
 
         for (int i = 1; i <= crumbleSteps; i++) {
-            shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero);
+            shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero, false);
             mat.SetColor("_Color", Color.Lerp(startColor, endColor, i/(float)crumbleSteps));
             yield return new WaitForSeconds(timeStep);
         }
@@ -56,7 +56,7 @@ public class CrumbleBehavior : MonoBehaviour, IPlayerCollidable {
         yield return new WaitForSeconds(timeToRespawn);
 
         animator.SetBool("Crumbled", false);
-        shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero);
+        shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero, false);
         mat.SetColor("_Color", originalColor);
         coll.enabled = true;
         crumbling = null;

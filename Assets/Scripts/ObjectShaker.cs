@@ -17,7 +17,12 @@ public class ObjectShaker : MonoBehaviour {
     /*
      * Public method that kicks off a set of shakes. If there is currently one running, it will cancel it and restart.
      */
-    public void Shake(int amount, float range, float duration, bool decay, Vector2 direction) {
+    public void Shake(int amount, float range, float duration, bool decay, Vector3 direction, bool forceRestart) {
+        // Do nothing if we don't restart coroutines and we are running one.
+        if (!forceRestart && currentCoroutine != null) {
+            return;
+        }
+        
         if (currentCoroutine != null) {
             StopCoroutine(currentCoroutine);
             transform.localPosition = originalPosition;
@@ -33,7 +38,7 @@ public class ObjectShaker : MonoBehaviour {
      * decay: If the range of each individual shake diminishes from the previous one.
      * direction: Specifies if the shakes should bounce along a particular direction. (Setting it to a vector of zero will cause the individual direction of each shake to be random.)
      */
-    private IEnumerator ShakeCoroutine(int amount, float range, float duration, bool decay, Vector2 direction) {
+    private IEnumerator ShakeCoroutine(int amount, float range, float duration, bool decay, Vector3 direction) {
 
         // Setup.
         originalPosition = transform.localPosition;
@@ -56,8 +61,8 @@ public class ObjectShaker : MonoBehaviour {
                 newPos = originalPosition;
             }
             // Else if the direction is zero, come up with a random position.
-            else if (direction == Vector2.zero) {
-                newPos = originalPosition + new Vector3(Random.Range(-range, range) * scale, Random.Range(-range, range) * scale, 0);
+            else if (direction == Vector3.zero) {
+                newPos = originalPosition + new Vector3(Random.Range(-range, range) * scale, Random.Range(-range, range) * scale, Random.Range(-range, range) * scale);
             }
             // Else come up with a position based on the direction.
             else {
