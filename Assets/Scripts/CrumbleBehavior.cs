@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CrumbleBehavior : MonoBehaviour, IPlayerCollidable {
 
+    public Color startColor, endColor;
     public float timeToCrumble = 2f;
     public int crumbleSteps = 4;
     public float timeToRespawn = 4f;
@@ -14,6 +15,7 @@ public class CrumbleBehavior : MonoBehaviour, IPlayerCollidable {
     private Collider coll;
 
     private ObjectShaker shaker;
+    private Animator animator;
 
     private void OnEnable() {
         coll = GetComponent<Collider>();
@@ -25,9 +27,10 @@ public class CrumbleBehavior : MonoBehaviour, IPlayerCollidable {
     }
 
     private void Start() {
-        shaker = transform.Find("Material").GetComponent<ObjectShaker>();
+        shaker = transform.Find("MatParent/Material").GetComponent<ObjectShaker>();
         mat = shaker.GetComponent<Renderer>().material;
         originalColor = mat.GetColor("_Color");
+        animator = transform.parent.GetComponent<Animator>();
     }
 
     public void Collided(Vector3 collisionDirection) {
@@ -40,19 +43,19 @@ public class CrumbleBehavior : MonoBehaviour, IPlayerCollidable {
     }
 
     private IEnumerator Crumble() {
-        Color color = originalColor;
         float timeStep = timeToCrumble/crumbleSteps;
 
         for (int i = 1; i <= crumbleSteps; i++) {
             shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero);
+            mat.SetColor("_Color", Color.Lerp(startColor, endColor, i/(float)crumbleSteps));
             yield return new WaitForSeconds(timeStep);
-            color.a = 1-(i/(float)crumbleSteps);
-            mat.SetColor("_Color", color);
         }
 
         coll.enabled = false;
+        animator.SetBool("Crumbled", true);
         yield return new WaitForSeconds(timeToRespawn);
 
+        animator.SetBool("Crumbled", false);
         shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero);
         mat.SetColor("_Color", originalColor);
         coll.enabled = true;
