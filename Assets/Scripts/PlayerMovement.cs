@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour {
     private CollisionController collisionController;
     private CollisionController.CollisionInfo collisionInfo;
     private Vector3 lastGroundedPosition = Vector3.zero;
+    private DialogueManager dialogueManager;
 
     private void OnValidate() {
         jumpHeight = Mathf.Max(0, jumpHeight);
@@ -86,6 +87,7 @@ public class PlayerMovement : MonoBehaviour {
     private void Awake() {
         UpdateKinematics();
         collisionController = GetComponent<CollisionController>();
+        dialogueManager = GetComponent<DialogueManager>();
 
         // Quick hack, need this initialized on the first frame.
         collisionInfo = new CollisionController.CollisionInfo();
@@ -111,7 +113,8 @@ public class PlayerMovement : MonoBehaviour {
         if (jumpBufferTimeLeft >= 0) {
             jumpBufferTimeLeft -= Time.deltaTime;
         }
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        // Only do jumps if we are not in dialogue.
+        if (Input.GetKeyDown(KeyCode.Space) && !dialogueManager.isOpen) {
             jumpBufferTimeLeft = jumpBufferTime;
         }
 
@@ -124,6 +127,10 @@ public class PlayerMovement : MonoBehaviour {
         four cardinal directions), when the player doesn't visually rotate but slows down in one axis when it is
         normalized. Leading to bad game feel. I don't know.*/ 
         Vector3 hInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"))/*.normalized*/;
+        // Cancel out hInput if we have dialogue open.
+        if (dialogueManager.isOpen) {
+            hInput = Vector3.zero;
+        }
         velocity.x = (velocity.x > hInput.x * runSpeed) ? Mathf.Max(hInput.x * runSpeed, velocity.x - (acceleration * Time.deltaTime)) 
                                                         : Mathf.Min(velocity.x + (acceleration * Time.deltaTime), hInput.x * runSpeed);
         velocity.z = (velocity.z > hInput.z * runSpeed) ? Mathf.Max(hInput.z * runSpeed, velocity.z - (acceleration * Time.deltaTime)) 

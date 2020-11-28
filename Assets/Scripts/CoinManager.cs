@@ -22,6 +22,20 @@ public class CoinManager : MonoBehaviour {
         coinMap[c].AddCoin();
     }
 
+    public bool hasCoins(Color color, int amount) {
+        if (!coinMap.ContainsKey(color)) {
+            return false;
+        }
+        return coinMap[color].GetCoinsInPocket() >= amount;
+    }
+
+    public void payCoins(Color color, int amount) {
+        if (!coinMap.ContainsKey(color)) {
+            return;
+        }
+        coinMap[color].RemoveCoins(amount);
+    }
+
     private class CoinType {
         private TMP_Text coinTracker;
         private int inPocket = 0;
@@ -39,6 +53,15 @@ public class CoinManager : MonoBehaviour {
         public void AddCoin() {
             totalCollected++;
             inPocket++;
+            coinTracker.text = inPocket.ToString();
+        }
+
+        public int GetCoinsInPocket() {
+            return inPocket;
+        }
+
+        public void RemoveCoins(int amount) {
+            inPocket = Mathf.Max(0, inPocket - amount);
             coinTracker.text = inPocket.ToString();
         }
     }

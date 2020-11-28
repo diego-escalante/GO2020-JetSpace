@@ -17,6 +17,8 @@ public class ColliderDetector : MonoBehaviour {
     private float timeElapsed = 0;
     private float timeBetweenChecks = 0.1f;
 
+    private Collider currentTroll;
+
     private void Start() {
         playerMovement = GetComponent<PlayerMovement>();
         collisionController = GetComponent<CollisionController>();
@@ -49,18 +51,30 @@ public class ColliderDetector : MonoBehaviour {
     // These names are borderline ridiculous.
     private void TriggerCollectibleCollidables() {
         // No need to do this if we haven't moved since last time.
-        if (lastPosition == transform.position) {
-            return;
-        }
+        // if (lastPosition == transform.position) {
+        //     return;
+        // }
 
         // Get collectible collidables from special raycasts based on player movement.
         Collider[] collectibleColls = Physics.OverlapBox(transform.position + coll.center, coll.size/2, Quaternion.identity, collectibleMask);
 
+        bool withTroll = false;
         foreach (Collider collectibleColl in collectibleColls) {
             if (!collidableMap.ContainsKey(collectibleColl)) {
                 continue;
             }
             collidableMap[collectibleColl].Collided(Vector3.zero);
+            
+            if (collectibleColl.gameObject.tag == "Troll") {
+                currentTroll = collectibleColl;
+                withTroll = true;
+            }
+
+        }
+
+        if (!withTroll && currentTroll != null) {
+            currentTroll.transform.parent.parent.GetComponent<TollDialogue>().Exited();
+            currentTroll = null;
         }
 
     }

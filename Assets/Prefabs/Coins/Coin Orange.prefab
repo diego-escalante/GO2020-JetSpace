@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 153ebfbbfaa1d8542bad905ff827cdf6, type: 3}
-  m_Color: {r: 0, g: 0.3333335, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.6666667, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2304211554902857395}
   - component: {fileID: 7803416227936372081}
   m_Layer: 10
-  m_Name: Coin Blue
+  m_Name: Coin Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
