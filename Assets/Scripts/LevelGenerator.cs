@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class LevelGenerator : MonoBehaviour{
+
+    public bool buildLevel = false;
 
     public LayerMask solidMask;
     public float blockSize = 3f;
@@ -12,7 +15,18 @@ public class LevelGenerator : MonoBehaviour{
 
     private Dictionary<Color, GameObject> colorToObjectMap = new Dictionary<Color, GameObject>();
 
-    private void Awake() {
+    private void Update() {
+        if (!buildLevel) {
+            return;
+        }
+
+        buildLevel = false;
+
+        // Delete previous generation.
+        while (transform.childCount > 0) {
+            DestroyImmediate(transform.GetChild(0).gameObject);
+        }
+
         BuildMap();
         foreach (LevelLayer levelLayer in levelLayers) {
             GenerateLayer(levelLayer);
@@ -20,6 +34,8 @@ public class LevelGenerator : MonoBehaviour{
     }
 
     private void BuildMap() {
+        colorToObjectMap.Clear();
+
         // Put the pixel to object mappings into a dictionary for nicer efficiency.
         foreach (PixelToObject pto in pixelToObjects) {
             // If the color is clear, log error and ignore.
@@ -57,33 +73,6 @@ public class LevelGenerator : MonoBehaviour{
             }
         }
     }
-
-    // private void GenerateObjects() {
-    //     for (int i = 0; i < objectMap.width; i++) {
-    //         for (int j = 0; j < objectMap.height; j++) {
-    //             pixelColor = objectMap.GetPixel(i, j);
-    //             // If pixel is not opaque, skip, it's empty.
-    //             if (pixelColor.a < 1) {
-    //                 continue;
-    //             }
-
-    //             if (!colorToObjectMap.ContainsKey(pixelColor)) {
-    //                 Debug.LogWarning("Color " + pixelColor + " found in object map but it has no prefab mapped to it. Ignoring.");
-    //                 continue;
-    //             }
-
-    //             // Determine where the floor is by shooting a raycast from above downwards.
-    //             Vector3 position = new Vector3(i * blockSize, 50, j * blockSize);
-    //             RaycastHit hit = Helpers.RaycastWithDebug(position, Vector3.down, 100f, solidMask);
-    //             if (hit.collider == null) {
-    //                 Debug.LogWarning("No terrain detected for object at " + i + "," + j + ". Ignoring.");
-    //                 continue;
-    //             }
-    //             position.y = hit.point.y;
-    //             Instantiate(colorToObjectMap[pixelColor], position, Quaternion.identity, transform);
-    //         }
-    //     }
-    // }
 
     [System.Serializable]
     public class LevelLayer {
