@@ -13,6 +13,7 @@ public class CheckpointSystem : MonoBehaviour {
     private void Start() {
         respawnPosition = transform.position;
         fade = GameObject.FindGameObjectWithTag("UI").transform.Find("Fade").GetComponent<RawImage>();
+        StartCoroutine(FadeIn(1f));
     }
 
     private void Update() {
@@ -28,6 +29,16 @@ public class CheckpointSystem : MonoBehaviour {
 
         bonfire = newBonfire;
         respawnPosition = bonfire.transform.position + new Vector3(0, 0.5f, -1);
+    }
+
+    private IEnumerator FadeIn(float duration) {
+        fade.color = Color.black;
+        yield return new WaitForSeconds(1f);
+        for(float elapsedTime = 0; elapsedTime <= duration; elapsedTime += Time.deltaTime) {
+            fade.color = Color.Lerp(Color.black, Color.clear, elapsedTime/duration);
+            yield return null;
+        }
+        fade.color = Color.clear;
     }
 
     private IEnumerator Fade(float duration) {
