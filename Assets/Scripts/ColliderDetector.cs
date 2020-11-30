@@ -18,6 +18,7 @@ public class ColliderDetector : MonoBehaviour {
     private float timeBetweenChecks = 0.1f;
 
     private Collider currentTroll;
+    private Collider currentStandaloneTroll;
 
     private void Start() {
         playerMovement = GetComponent<PlayerMovement>();
@@ -59,6 +60,7 @@ public class ColliderDetector : MonoBehaviour {
         Collider[] collectibleColls = Physics.OverlapBox(transform.position + coll.center, coll.size/2, Quaternion.identity, collectibleMask);
 
         bool withTroll = false;
+        bool withStandaloneTroll = false;
         foreach (Collider collectibleColl in collectibleColls) {
             if (!collidableMap.ContainsKey(collectibleColl)) {
                 continue;
@@ -70,11 +72,21 @@ public class ColliderDetector : MonoBehaviour {
                 withTroll = true;
             }
 
+            if (collectibleColl.gameObject.tag == "StandaloneTroll") {
+                currentStandaloneTroll = collectibleColl;
+                withStandaloneTroll = true;
+            }
+
         }
 
         if (!withTroll && currentTroll != null) {
             currentTroll.transform.parent.parent.GetComponent<TollDialogue>().Exited();
             currentTroll = null;
+        }
+
+        if (!withStandaloneTroll && currentStandaloneTroll != null) {
+            currentStandaloneTroll.transform.parent.GetComponent<StandaloneTroll>().Exited();
+            currentStandaloneTroll = null;
         }
 
     }
@@ -95,7 +107,7 @@ public class ColliderDetector : MonoBehaviour {
         timeElapsed = 0;
 
         // Get terrain nearby that still needs to drop.
-        Collider[] terrainToDrop = Physics.OverlapCapsule(transform.position, transform.position + Vector3.up * 30, 10, toDropMask);
+        Collider[] terrainToDrop = Physics.OverlapCapsule(transform.position, transform.position + Vector3.up * 30, 12, toDropMask);
 
         foreach (Collider terrain in terrainToDrop) {
             terrain.gameObject.layer = LayerMask.NameToLayer("Solid");

@@ -24,9 +24,7 @@ public class DialogueManager : MonoBehaviour {
     private float defaultFontSize;
     private float defaultSpeed;
 
-    private TollDialogue tollDialogue;
-
-    private void Start() {
+    private void Awake() {
         Transform trans = GameObject.FindWithTag("UI").transform.Find("Dialogue Box");
         uiText = trans.Find("HList/Text").GetComponent<TMP_Text>();
         leftProfile = trans.Find("HList/Left Profile").GetComponent<Image>();
@@ -43,8 +41,7 @@ public class DialogueManager : MonoBehaviour {
         }
     }
 
-    public void StartDialogue(TollDialogue tollDialogue, Dialogue dialogue) {
-        this.tollDialogue = tollDialogue;
+    public void StartDialogue(Dialogue dialogue) {
         subDialogues.Clear();
         isOpen = true;
         animator.SetBool("isOpen", isOpen);
@@ -104,7 +101,6 @@ public class DialogueManager : MonoBehaviour {
         Time.timeScale = 1f;
         isOpen = false;
         animator.SetBool("isOpen", isOpen);
-        // tollDialogue.Collided(Vector3.zero);
     }
 
     private IEnumerator ScrollCharacters(string text, float speed) {

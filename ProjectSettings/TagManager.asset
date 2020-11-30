@@ -6,6 +6,7 @@ TagManager:
   tags:
   - UI
   - Troll
+  - StandaloneTroll
   layers:
   - Default
   - TransparentFX

@@ -57,7 +57,7 @@ public class TollDialogue : MonoBehaviour, IPlayerCollidable {
 
             switch (dialogueState) {
                 case DialogueState.Initial:
-                    dialogueManager.StartDialogue(this, initialDialogue);
+                    dialogueManager.StartDialogue(initialDialogue);
                     dialogueState = DialogueState.Middle;
                     coinReqUI.SetActive(true);
                     coinReqUI.transform.Find("Image").GetComponent<Image>().color = reqCoinColor;
@@ -68,16 +68,16 @@ public class TollDialogue : MonoBehaviour, IPlayerCollidable {
                 case DialogueState.Middle:
                     if (coinManager.hasCoins(reqCoinColor, reqCoinAmount)) {
                         coinManager.payCoins(reqCoinColor, reqCoinAmount);
-                        dialogueManager.StartDialogue(this, reqMetDialogue);
+                        dialogueManager.StartDialogue(reqMetDialogue);
                         dialogueState = DialogueState.End;
                         coinReqUI.SetActive(false);
                         StartCoroutine(BastionizeBridge());
                     } else {
-                        dialogueManager.StartDialogue(this, reqNotMetDialogue);
+                        dialogueManager.StartDialogue(reqNotMetDialogue);
                     }
                     break;
                 case DialogueState.End:
-                    dialogueManager.StartDialogue(this, doneDialogue);
+                    dialogueManager.StartDialogue(doneDialogue);
                     break;
             }
         }

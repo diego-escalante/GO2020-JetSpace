@@ -5,13 +5,16 @@ using UnityEngine.UI;
 
 public class CheckpointSystem : MonoBehaviour {
 
+    public Dialogue dialogue;
     private Vector3 respawnPosition;
     private BonfireBehavior bonfire;
     private RawImage fade;
     private bool isFading = false;
+    private static DialogueManager dialogueManager;
 
     private void Start() {
         respawnPosition = transform.position;
+        dialogueManager = GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueManager>();
         fade = GameObject.FindGameObjectWithTag("UI").transform.Find("Fade").GetComponent<RawImage>();
         StartCoroutine(FadeIn(1f));
     }
@@ -39,6 +42,7 @@ public class CheckpointSystem : MonoBehaviour {
             yield return null;
         }
         fade.color = Color.clear;
+        dialogueManager.StartDialogue(dialogue);
     }
 
     private IEnumerator Fade(float duration) {

@@ -287,7 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jumpHeight: 1.5
   timeToJumpApex: 0.33
-  runSpeed: 5
+  runSpeed: 7
   timeToTopSpeed: 0.2
   terminalVelocityFactor: 5
   jumps: 1
@@ -373,6 +373,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b254208296ee4e34cb748aa139ad6c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogue:
+    leftProfileColor: {r: 1, g: 0, b: 0, a: 1}
+    rightProfileColor: {r: 1, g: 1, b: 1, a: 1}
+    noProfileColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+    defaultFontSize: 30
+    defaultSpeed: 0.05
+    subDialogues:
+    - profileLocation: 2
+      fontSize: 0
+      textSpeed: 0
+      text: Use the arrow keys to move, and the spacebar to jump.
 --- !u!114 &4460982510036822075
 MonoBehaviour:
   m_ObjectHideFlags: 0
