@@ -38,6 +38,7 @@ public class CoinBehavior : MonoBehaviour, IPlayerCollidable {
 
     public void Collided(Vector3 v) {
         coinManager.AddCoin(coinColor);
+        playerColl.GetComponent<SoundController>().PlayCoinSound();
         Destroy(gameObject);
     }
 }

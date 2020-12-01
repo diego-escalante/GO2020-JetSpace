@@ -23,8 +23,10 @@ public class DialogueManager : MonoBehaviour {
     private Color noProfileColor;
     private float defaultFontSize;
     private float defaultSpeed;
+    private SoundController soundController;
 
     private void Awake() {
+        soundController = GetComponent<SoundController>();
         Transform trans = GameObject.FindWithTag("UI").transform.Find("Dialogue Box");
         uiText = trans.Find("HList/Text").GetComponent<TMP_Text>();
         leftProfile = trans.Find("HList/Left Profile").GetComponent<Image>();
@@ -114,6 +116,10 @@ public class DialogueManager : MonoBehaviour {
 
             if (inBrackets) {
                 continue;
+            }
+
+            if (text[i] != ' ') {
+                soundController.PlayDialogueSound();
             }
 
             string revealedText = text.Substring(0, i+1);

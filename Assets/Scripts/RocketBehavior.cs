@@ -12,9 +12,18 @@ public class RocketBehavior : MonoBehaviour {
     private float acc = 0.1f;
     private float jerk = 2.5f;
     private float duration = 1f;
+    private AudioSource audioSource;
 
     private void Start() {
         playerTrans = GameObject.FindGameObjectWithTag("Player").transform;
+        
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.loop = false;
+        audioSource.spatialBlend = 1;
+        audioSource.maxDistance = 12;
+        audioSource.minDistance = 2.5f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.clip = GameObject.FindGameObjectWithTag("Player").GetComponent<SoundController>().rocket;
     }
 
     private void Update() {
@@ -29,6 +38,8 @@ public class RocketBehavior : MonoBehaviour {
         playerTrans.Find("BlobShadowProjector").gameObject.SetActive(false);
         playerTrans.GetComponent<PlayerMovement>().enabled = false;
         playerTrans.GetComponent<PlayerHovering>().enabled = false;
+        audioSource.Play();
+        GameObject.FindGameObjectWithTag("Player").GetComponent<MusicController>().FadeAll();
         transform.GetChild(0).GetComponent<ObjectShaker>().Shake(600, 0.05f, 0.01f, false, Vector3.zero, false);
         yield return new WaitForSeconds(3f);
 

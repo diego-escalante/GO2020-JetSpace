@@ -23,6 +23,7 @@ public class TollDialogue : MonoBehaviour, IPlayerCollidable {
     private static Transform playerTrans;
 
     private DialogueState dialogueState = DialogueState.Initial;
+    private static MusicController musicController;
 
     private void OnEnable() {
         coll = transform.Find("Troll/Collider").GetComponent<BoxCollider>();
@@ -34,6 +35,9 @@ public class TollDialogue : MonoBehaviour, IPlayerCollidable {
     }
 
     private void Start() {
+        if (musicController == null) {
+            musicController = GameObject.FindGameObjectWithTag("Player").GetComponent<MusicController>();
+        }
         if (dialogueManager == null) {
             dialogueManager = GameObject.FindGameObjectWithTag("Player").GetComponent<DialogueManager>();
         }
@@ -71,6 +75,7 @@ public class TollDialogue : MonoBehaviour, IPlayerCollidable {
                         dialogueManager.StartDialogue(reqMetDialogue);
                         dialogueState = DialogueState.End;
                         coinReqUI.SetActive(false);
+                        musicController.AddTrack();
                         StartCoroutine(BastionizeBridge());
                     } else {
                         dialogueManager.StartDialogue(reqNotMetDialogue);

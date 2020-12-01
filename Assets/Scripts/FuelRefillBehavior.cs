@@ -12,6 +12,7 @@ public class FuelRefillBehavior : MonoBehaviour, IPlayerCollidable {
     public float fillAmountPercentage = 1f;
     private BoxCollider coll;
     private PlayerHovering playerHovering;
+    private SoundController soundController;
     private SpriteRenderer rend;
 
     private void OnEnable() {
@@ -25,6 +26,7 @@ public class FuelRefillBehavior : MonoBehaviour, IPlayerCollidable {
 
     private void Start() {
         playerHovering = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHovering>();
+        soundController = playerHovering.GetComponent<SoundController>();
         rend = transform.Find("Sprite").GetComponent<SpriteRenderer>();
         transform.Translate(Vector3.down);
         GetComponent<Animator>().Play("Wiggle", 0, Random.Range(0, 1f));
@@ -32,6 +34,7 @@ public class FuelRefillBehavior : MonoBehaviour, IPlayerCollidable {
 
     public void Collided(Vector3 v) {
         if (rend.sprite == filledSprite) {
+            soundController.PlayFuelSound();
             StartCoroutine(FuelUp());
         }
     }

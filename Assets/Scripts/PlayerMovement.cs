@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour {
     private CollisionController.CollisionInfo collisionInfo;
     private Vector3 lastGroundedPosition = Vector3.zero;
     private DialogueManager dialogueManager;
+    private SoundController soundController;
 
     private void OnValidate() {
         jumpHeight = Mathf.Max(0, jumpHeight);
@@ -92,6 +93,7 @@ public class PlayerMovement : MonoBehaviour {
         // Quick hack, need this initialized on the first frame.
         collisionInfo = new CollisionController.CollisionInfo();
         collisionInfo.colliders = new Dictionary<Vector3, Collider>();
+        soundController = GetComponent<SoundController>();
     }
 
     private void Update(){
@@ -143,6 +145,7 @@ public class PlayerMovement : MonoBehaviour {
         if (jumpBufferTimeLeft >= 0 && jumpsLeft > 0) {
             velocity.y = (jumps == jumpsLeft ? maxJumpVelocity : maxMultiJumpVelocity);
             jumpsLeft--;
+            soundController.PlayJumpSound();
             // Just set the jump timer to negative to "consume" input.
             jumpBufferTimeLeft = -1;
             if (variableJumpEnabled) {

@@ -18,23 +18,28 @@ public class PlayerHovering : MonoBehaviour {
     private float targetHeight;
 
     private Image counter;
+    private SoundController soundController;
 
     private void Start() {
+        soundController = GetComponent<SoundController>();
         playerMovement = GetComponent<PlayerMovement>();
         hoverDecel = playerMovement.GetGravity();
         UpdateCounter();
     }
 
     private void Update() {
-        if (playerMovement.IsGrounded()) {
+        if (playerMovement.IsGrounded() && hoverEnabled) {
             hoverEnabled = false;
+            soundController.StopSound();
         } 
         
         if (playerMovement.JumpsLeft() == 0 && !playerMovement.IsGrounded() && Input.GetKeyDown(KeyCode.Space)) {
             hoverEnabled = true;
+            soundController.PlayJetpackSound();
             targetHeight = playerMovement.GetLastGroundedPosition().y + playerMovement.GetJumpHeight() + maxHoverHeightGain;
         } else if (hoverEnabled && Input.GetKeyUp(KeyCode.Space)) {
             hoverEnabled = false;
+            soundController.StopSound();
         }
 
         if (burnTimeLeft > 0) {
@@ -64,6 +69,9 @@ public class PlayerHovering : MonoBehaviour {
                 burnTimeLeft -= Time.deltaTime * decayRatePerSecond * burnTime;
             }
             UpdateCounter();
+        } else if (hoverEnabled) {
+            hoverEnabled = false;
+            soundController.StopSound();
         }
     }
     

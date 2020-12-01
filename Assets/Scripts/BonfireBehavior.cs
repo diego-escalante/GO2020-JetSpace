@@ -7,6 +7,7 @@ public class BonfireBehavior : MonoBehaviour, IPlayerCollidable {
     private static CheckpointSystem checkpointSystem;
     private Animator anim;
     private Collider coll;
+    private static SoundController soundController;
 
     private void OnEnable() {
         coll = transform.parent.GetComponent<BoxCollider>();
@@ -22,6 +23,9 @@ public class BonfireBehavior : MonoBehaviour, IPlayerCollidable {
         if (checkpointSystem == null) {
             checkpointSystem = GameObject.FindGameObjectWithTag("Player").GetComponent<CheckpointSystem>();
         }
+        if (soundController == null) {
+            soundController = GameObject.FindGameObjectWithTag("Player").GetComponent<SoundController>();
+        }
     }
 
     public void Collided(Vector3 v) {
@@ -30,6 +34,9 @@ public class BonfireBehavior : MonoBehaviour, IPlayerCollidable {
     }
 
     public void SetState(bool state) {
+        if (!anim.GetBool("IsActive")) {
+            soundController.PlayFireSound();
+        }
         anim.SetBool("IsActive", state);
     }
 

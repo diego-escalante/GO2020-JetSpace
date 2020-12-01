@@ -12,12 +12,24 @@ public class ToggleBehavior : MonoBehaviour {
     private Renderer rend;
     private ObjectShaker shaker;
     private Collider coll;
+    private AudioSource audioSource;
+    private static AudioClip toggleClip;
 
     private void Start() {
         currentTime = offsetTime;
         shaker = transform.Find("Material").GetComponent<ObjectShaker>();
         rend = shaker.GetComponent<Renderer>();
         coll = transform.Find("Collider").GetComponent<Collider>();
+        audioSource = gameObject.AddComponent<AudioSource>();
+        if (toggleClip == null) {
+            toggleClip = GameObject.FindGameObjectWithTag("Player").GetComponent<SoundController>().toggle;
+        }
+        audioSource.loop = false;
+        audioSource.spatialBlend = 1;
+        audioSource.maxDistance = 12;
+        audioSource.minDistance = 2.5f;
+        audioSource.rolloffMode = AudioRolloffMode.Linear;
+        audioSource.clip = toggleClip;
     }
 
     private void Update() {
@@ -32,6 +44,7 @@ public class ToggleBehavior : MonoBehaviour {
                 isSolid = !isSolid;
                 rend.enabled = isSolid;
                 coll.enabled = isSolid;
+                audioSource.Play();
                 shaker.Shake(10, 0.15f, 0.01f, true, Vector2.zero, false);
             }
         }

@@ -26,6 +26,10 @@ public class CheckpointSystem : MonoBehaviour {
     }
 
     public void UpdateRespawn(BonfireBehavior newBonfire) {
+        if (newBonfire == bonfire) {
+            return;
+        }
+
         if (bonfire != null) {
             bonfire.SetState(false);
         }
