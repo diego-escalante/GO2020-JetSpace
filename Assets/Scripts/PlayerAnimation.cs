@@ -8,6 +8,8 @@ public class PlayerAnimation : MonoBehaviour {
     private Animator animator;
     private SpriteRenderer rend;
     private PlayerMovement playerMovement;
+    private Transform particlesTrans;
+    private Vector3 initialPos;
 
     private Vector3 vel;
 
@@ -15,6 +17,8 @@ public class PlayerAnimation : MonoBehaviour {
         animator = GetComponent<Animator>();
         playerMovement = transform.parent.GetComponent<PlayerMovement>();
         rend = GetComponent<SpriteRenderer>();
+        particlesTrans = transform.parent.Find("Particles").transform;
+        initialPos = particlesTrans.localPosition;
     }
 
     private void Update() {
@@ -23,6 +27,7 @@ public class PlayerAnimation : MonoBehaviour {
         // Set facing direction.
         if (vel.x != 0) {
             rend.flipX = vel.x < 0;
+            particlesTrans.localPosition = initialPos * (vel.x < 0 ? -1 : 1); 
         }
 
         // Set moving.

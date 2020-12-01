@@ -19,10 +19,12 @@ public class PlayerHovering : MonoBehaviour {
 
     private Image counter;
     private SoundController soundController;
+    private ParticleSystem particles;
 
     private void Start() {
         soundController = GetComponent<SoundController>();
         playerMovement = GetComponent<PlayerMovement>();
+        particles = transform.Find("Particles").GetComponent<ParticleSystem>();
         hoverDecel = playerMovement.GetGravity();
         UpdateCounter();
     }
@@ -30,15 +32,18 @@ public class PlayerHovering : MonoBehaviour {
     private void Update() {
         if (playerMovement.IsGrounded() && hoverEnabled) {
             hoverEnabled = false;
+            particles.Stop();
             soundController.StopSound();
         } 
         
         if (playerMovement.JumpsLeft() == 0 && !playerMovement.IsGrounded() && Input.GetKeyDown(KeyCode.Space)) {
             hoverEnabled = true;
+            particles.Play();
             soundController.PlayJetpackSound();
             targetHeight = playerMovement.GetLastGroundedPosition().y + playerMovement.GetJumpHeight() + maxHoverHeightGain;
         } else if (hoverEnabled && Input.GetKeyUp(KeyCode.Space)) {
             hoverEnabled = false;
+            particles.Stop();
             soundController.StopSound();
         }
 
@@ -71,6 +76,7 @@ public class PlayerHovering : MonoBehaviour {
             UpdateCounter();
         } else if (hoverEnabled) {
             hoverEnabled = false;
+            particles.Stop();
             soundController.StopSound();
         }
     }

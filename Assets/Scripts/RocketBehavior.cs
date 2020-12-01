@@ -41,6 +41,7 @@ public class RocketBehavior : MonoBehaviour {
         audioSource.Play();
         GameObject.FindGameObjectWithTag("Player").GetComponent<MusicController>().FadeAll();
         transform.GetChild(0).GetComponent<ObjectShaker>().Shake(600, 0.05f, 0.01f, false, Vector3.zero, false);
+        transform.GetChild(1).GetComponent<ParticleSystem>().Play();
         yield return new WaitForSeconds(3f);
 
         while(transform.position.y < 50f) {
